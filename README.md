@@ -6,6 +6,9 @@ Implementing pullDown event by jQuery with bootstrap style.
 PullDown is most used to refresh page by touch(drag), move down and drop finger from display.
 
 
+## Version 0.0.8
+
+
 insert this lines to your app:
 
 <pre>
@@ -47,15 +50,15 @@ insert this lines to your app:
 API-documentation
 -----------------
 
-Events:
+### Events:
 
-pullDown
+<code>pullDown</code>
 	- if pulled down (time to refresh)
-pullDownStopWorking
+<code>pullDownStopWorking</code>
 	- if clicked to stop refreshing
 
 
-
+-----------------------------------------------------------------
 ### Options:
 
 <code>container</code>
