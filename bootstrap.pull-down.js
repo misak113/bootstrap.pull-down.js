@@ -18,7 +18,11 @@
 		this.start = function (options) {
 			if (typeof options === 'undefined') options = {};
 			if (typeof options.pullDown === 'undefined') options.pullDown = $('.pull-down');
-			if (typeof options.container === 'undefined') this.container = $('body');
+			if (typeof options.container === 'undefined') {
+				this.container = $('body');
+			} else {
+				this.container = options.container;
+			}
 
 			stopListen(options.pullDown);
 			listen(options.pullDown);
