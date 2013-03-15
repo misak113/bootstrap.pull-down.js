@@ -54,6 +54,7 @@ API-documentation
 
 <code>pullDown</code>
 	- if pulled down (time to refresh)
+	
 <code>pullDownStopWorking</code>
 	- if clicked to stop refreshing
 
