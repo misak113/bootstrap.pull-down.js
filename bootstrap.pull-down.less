@@ -1,0 +1,149 @@
+
+.pull-down {
+	background-color: #EEEEEE;
+	height: 60px;
+	
+	.indicator-click {
+		float: left;
+		margin: 14px;
+	}
+	.indicator {
+		-webkit-animation: noRotate 0.5s ease 0 1 normal;
+		-webkit-transform: rotate(0deg);
+		float: left;
+		margin: 14px;
+		display: none;
+	}
+	.indicator-working {
+		-webkit-animation: rotatingLeft 1s linear 0 infinite normal;
+		-webkit-transform: rotate(0deg);
+		float: left;
+		margin: 14px;
+		display: none;
+	}
+	.stop {
+		display: block;
+		
+		&.close {
+			float: right;
+			margin: 14px;
+		}
+		display: none;
+	}
+	.pulled-label {
+		margin: 20px;
+		float: left;
+		display: none;
+	}
+	.pull-label {
+		margin: 20px;
+		float: left;
+		display: none;
+	}
+	.default-label {
+		margin: 20px;
+		float: left;
+	}
+	.working-label {
+		display: none;
+		margin: 20px;
+		float: left;
+	}
+
+	&.turn-on {
+		margin-top: -60px;
+
+
+		.indicator-click {
+			display: none;
+		}
+		.indicator {
+			display: block;
+		}
+		.pulled-label {
+			display: none;
+		}
+		.pull-label {
+			display: block;
+		}
+		.default-label {
+			display: none;
+		}
+
+		&.pulled {
+
+			.pulled-label {
+				display: block;
+			}
+			.pull-label {
+				display: none;
+			}
+
+			.indicator {
+				-webkit-animation: halfRotate 0.5s ease 0 1 normal;
+				-webkit-transform: rotate(-180deg);
+			}
+		}
+		&.down {
+			-webkit-animation: none;
+		}
+	}
+
+	&.working {
+		.indicator-working {
+			display: block;
+		}
+		.indicator-click {
+			display: none !important;
+		}
+		.indicator {
+			display: none !important;
+		}
+		.stop {
+			display: block;
+		}
+		.pulled-label {
+			display: none !important;
+		}
+		.pull-label {
+			display: none !important;
+		}
+		.default-label {
+			display: none !important;
+		}
+		.working-label {
+			display: block;
+		}
+	}
+
+}
+
+
+//@-moz-keyframes, @-webkit-keyframes, @-o-keyframes, 
+@-webkit-keyframes halfRotate {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		-webkit-transform: rotate(-180deg);
+	}
+}
+@-webkit-keyframes noRotate {
+	from {
+		-webkit-transform: rotate(-180deg);
+	}
+
+	to {
+		-webkit-transform: rotate(0deg);
+	}
+}
+@-webkit-keyframes rotatingLeft {
+	from {
+		-webkit-transform: rotate(0deg);
+	}
+
+	to {
+		-webkit-transform: rotate(-360deg);
+	}
+}
