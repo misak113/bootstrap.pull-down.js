@@ -42,3 +42,47 @@ insert this lines to your app:
 	&lt;/body>
 &lt;/html>
 </pre>
+
+
+API-documentation
+-----------------
+
+Events:
+
+pullDown
+	- if pulled down (time to refresh)
+pullDownStopWorking
+	- if clicked to stop refreshing
+
+
+
+Options:
+
+container
+	- which element react to touches
+
+pullDown
+	- the element contained the pullDown pane at top
+
+
+
+Methods:
+
+start(options)
+	- start the pullDown
+
+enable()
+	- set as enabled and start (default is enabled)
+
+disable()
+	- set as disabled and start (refresh pane isstatic)
+
+
+
+Properties:
+
+enabled
+	- is pullDown enabled (or disabled and is static pane)
+
+container
+	- the global container element for pullDown
