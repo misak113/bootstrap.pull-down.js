@@ -56,33 +56,33 @@ pullDownStopWorking
 
 
 
-Options:
+### Options:
 
-container
+<code>container</code>
 	- which element react to touches
 
-pullDown
+<code>pullDown</code>
 	- the element contained the pullDown pane at top
 
 
+-----------------------------------------------------------------
+### Methods:
 
-Methods:
-
-start(options)
+<code>start(options)</code>
 	- start the pullDown
 
-enable()
+<code>enable()</code>
 	- set as enabled and start (default is enabled)
 
-disable()
+<code>disable()</code>
 	- set as disabled and start (refresh pane isstatic)
 
 
+-----------------------------------------------------------------
+### Properties:
 
-Properties:
-
-enabled
+<code>enabled</code>
 	- is pullDown enabled (or disabled and is static pane)
 
-container
+<code>container</code>
 	- the global container element for pullDown
