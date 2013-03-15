@@ -8,6 +8,7 @@ PullDown is most used to refresh page by touch(drag), move down and drop finger 
 
 insert this lines to your app:
 
+<pre>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -40,3 +41,4 @@ insert this lines to your app:
 		</div>
 	</body>
 </html>
+</pre>
