@@ -4,8 +4,7 @@
 	var pullDown = function () {
 		var self = this;
 		this.enabled = true;
-		this.container = $('body');
-		var defaultPullDown = $('.pull-down');
+		this.container;
 
 		var lastMoveEvent = null;
 		var nowMoveEvent = null;
@@ -18,11 +17,11 @@
 
 		this.start = function (options) {
 			if (typeof options === 'undefined') options = {};
-			if (typeof options.pullDown === 'undefined') pullDown = defaultPullDown;
-			if (typeof options.container !== 'undefined') this.container = options.container;
+			if (typeof options.pullDown === 'undefined') options.pullDown = $('.pull-down');
+			if (typeof options.container === 'undefined') this.container = $('body');
 
-			stopListen(pullDown);
-			listen(pullDown);
+			stopListen(options.pullDown);
+			listen(options.pullDown);
 		};
 
 		this.enable = function () {
@@ -70,6 +69,7 @@
 			self.container.unbind(TOUCHEND);
 			pullDown.find('.stop').unbind('click').on('click', function (ev) {
 				ev.preventDefault();
+				moving = false;
 				stopWorking(ev, pullDown);
 			});
 
@@ -204,7 +204,7 @@
 			return deltaY;
 		};
 
-		prepare();
+		//prepare();
 
 	};
 	// add to jQuery
