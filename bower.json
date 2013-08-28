@@ -1,0 +1,24 @@
+{
+  "name": "bootstrap.pull-down",
+  "version": "0.1.0",
+  "homepage": "https://github.com/misak113/bootstrap.pull-down.js",
+  "authors": [
+    "Michael Zabka <zabka.michael@seznam.cz>"
+  ],
+  "description": "pull-down for touch devices by bootstrap and jquery",
+  "keywords": [
+    "pulldown",
+    "pull-down",
+    "jquery-pulldown",
+    "bootstrap-pulldown",
+    "pulldown-to-refresh"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
