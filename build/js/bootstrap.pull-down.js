@@ -26,23 +26,50 @@
 
 			stopListen(options.pullDown);
 			listen(options.pullDown);
+			return {
+				start: self.start,
+				enable: function () {
+					self.enable(options.pullDown);
+				},
+				disable: function () {
+					self.disable(options.pullDown);
+				},
+				loading: function (status) {
+					self.loading(status, options.pullDown);
+				},
+				element: options.pullDown,
+				container: this.container
+			};
 		};
 
-		this.enable = function () {
+		this.enable = function (pullDown) {
+			pullDown.removeClass('disabled');
 			this.enabled = true;
 			this.start();
 		};
 
-		this.disable = function () {
+		this.disable = function (pullDown) {
+			pullDown.addClass('disabled');
 			this.enabled = false;
 			this.start();
 		};
 
-		var listen = function (pullDown) {
-			prepare();
+		this.loading = function (status, pullDown) {
+			if (status === true) {
+				pullDown.addClass('working');
+				stopListen(pullDown);
+				statusUpdate(pullDown);
+			} else {
+				stopWorking($.Event("pullDownStopWorking"), pullDown);
+			}
 
+		};
+
+		var listen = function (pullDown) {
 			// Když je vypnuto
-			if (self.enabled === false) return;
+			if (self.enabled === false) return unprepare();;
+			
+			prepare();
 
 			// turn-on css
 			pullDown.addClass('turn-on');
@@ -57,7 +84,7 @@
 				// do scrolled action
 				scrolledAction(pullDown);
 			});
-			pullDown.find('.stop').unbind('click');
+			pullDown.find('.stop').off('click');
 
 			statusUpdate(pullDown);
 		};
@@ -69,15 +96,15 @@
 			hidePullDownAbove(pullDown);
 
 			// on scroll do
-			self.container.unbind(TOUCHMOVE);
-			self.container.unbind(TOUCHEND);
-			pullDown.find('.stop').unbind('click').on('click', function (ev) {
+			self.container.off(TOUCHMOVE);
+			self.container.off(TOUCHEND);
+			pullDown.find('.stop').off('click').on('click', function (ev) {
 				ev.preventDefault();
 				moving = false;
 				stopWorking(ev, pullDown);
 			});
 
-			pullDown.find('.work').unbind('click').on('click', function (ev) {
+			pullDown.find('.work').off('click').on('click', function (ev) {
 				ev.preventDefault();
 				eventTriggerPullDown(pullDown);
 				pullDown.addClass('working');
@@ -90,6 +117,7 @@
 			nowMoveEvent = ev;
 		};
 		var movingStart = function (ev) {
+			lastMoveEvent = null;
 			moving = true;
 		};
 		var movingEnd = function (ev) {
@@ -100,10 +128,17 @@
 
 		var prepare = function () {
 			// bind store moving
-			self.container.unbind(TOUCHMOVE, movingDuration).on(TOUCHMOVE, movingDuration);
+			self.container.off(TOUCHMOVE, movingDuration).on(TOUCHMOVE, movingDuration);
 			// Mouse fix
-			self.container.unbind(TOUCHSTART, movingStart).on(TOUCHSTART, movingStart);
-			self.container.unbind(TOUCHEND, movingEnd).on(TOUCHEND, movingEnd);
+			self.container.off(TOUCHSTART, movingStart).on(TOUCHSTART, movingStart);
+			self.container.off(TOUCHEND, movingEnd).on(TOUCHEND, movingEnd);
+		};
+		var unprepare = function () {
+			// bind store moving
+			self.container.off(TOUCHMOVE, movingDuration);
+			// Mouse fix
+			self.container.off(TOUCHSTART, movingStart);
+			self.container.off(TOUCHEND, movingEnd);
 		};
 
 		var scrollAction = function (ev, pullDown) {
@@ -113,6 +148,8 @@
 			if (scrollTop == 0 
 				&& marginTop+deltaY > -getHeightPullDown(pullDown)
 				) {
+				if (typeof document.selection !== 'undefined') document.selection.empty();
+    			if (typeof window.getSelection() !== 'undefined') window.getSelection().removeAllRanges()
 				ev.preventDefault();
 				pullDown.css('margin-top', (marginTop+deltaY)+'px');
 				scrollToTop();
@@ -134,7 +171,7 @@
 		var statusUpdate = function (pullDown) {
 			var pullDownMarginTop = getMarginTop(pullDown);
 
-			if (pullDownMarginTop > 0) {
+			if (pullDownMarginTop > 200) {
 				pullDown.addClass('pulled');
 			} else {
 				pullDown.removeClass('pulled');
@@ -158,7 +195,7 @@
 
 		var hidePullDown = function (pullDown) {
 			var height = getHeightPullDown(pullDown);
-			$(pullDown).animate({marginTop: -height}, 500);
+			$(pullDown).animate({marginTop: -height-1}, 500);
 		};
 		var hidePullDownAbove = function (pullDown) {
 			var height = getHeightPullDown(pullDown);
@@ -166,8 +203,12 @@
 		};
 
 		var getHeightPullDown = function (pullDown) {
+			//padding-top se nezapočítáva
 			return pullDown.height();
 		};
+		var getPaddingTop = function (pullDown) {
+			return parseInt(pullDown.css('padding-top').replace('px', ''));
+		}
 
 		var getScrollUp = function () {
 			return $(window).scrollTop();
@@ -184,7 +225,7 @@
 		};
 
 		var eventTriggerPullDown = function (pullDown) {
-			var ev = jQuery.Event("pullDown");
+			var ev = $.Event("pullDown");
 			ev.pullDownElement = pullDown;
 			self.container.trigger('pullDown', ev);
 		};
@@ -205,6 +246,8 @@
 			}
 
 			var deltaY = touch.clientY - lastTouch.clientY;
+			// ošetření o podezřele velké skoky
+			if (deltaY > 100) return 0;
 			return deltaY;
 		};
 
