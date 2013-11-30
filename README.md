@@ -7,7 +7,7 @@ PullDown is most used to refresh page by touch(drag), move down and drop finger 
 
 <img src="preview.jpg" alt="Preview" />
 
-## Version 0.0.8
+## Version 0.1.1
 
 
 insert this lines to your app:
@@ -82,12 +82,15 @@ API-documentation
 <code>disable()</code>
 	- set as disabled and start (refresh pane isstatic)
 
+<code>loading(status)</code>
+	- show loading spinner if status true or hide if status false (like pulled down event trigged)
+
 
 -----------------------------------------------------------------
 ### Properties:
 
-<code>enabled</code>
-	- is pullDown enabled (or disabled and is static pane)
-
 <code>container</code>
 	- the global container element for pullDown
+
+<code>element</code>
+	- the pullDown element

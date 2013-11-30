@@ -3,8 +3,9 @@
 	
 	var pullDown = function () {
 		var self = this;
-		this.enabled = true;
+		var enabled = true;
 		this.container;
+		this.pullDown;
 
 		var lastMoveEvent = null;
 		var nowMoveEvent = null;
@@ -18,11 +19,11 @@
 		this.start = function (options) {
 			if (typeof options === 'undefined') options = {};
 			if (typeof options.pullDown === 'undefined') options.pullDown = $('.pull-down');
-			if (typeof options.container === 'undefined') {
-				this.container = $('body');
-			} else {
-				this.container = options.container;
-			}
+			if (typeof options.container === 'undefined') options.container = $('body');
+			
+			// set for global use of pullDown
+			self.container = options.container;
+			self.pullDown = options.pullDown;
 
 			stopListen(options.pullDown);
 			listen(options.pullDown);
@@ -38,19 +39,19 @@
 					self.loading(status, options.pullDown);
 				},
 				element: options.pullDown,
-				container: this.container
+				container: options.container
 			};
 		};
 
 		this.enable = function (pullDown) {
 			pullDown.removeClass('disabled');
-			this.enabled = true;
+			enabled = true;
 			this.start();
 		};
 
 		this.disable = function (pullDown) {
 			pullDown.addClass('disabled');
-			this.enabled = false;
+			enabled = false;
 			this.start();
 		};
 
@@ -66,8 +67,9 @@
 		};
 
 		var listen = function (pullDown) {
+			//console.log('listen');
 			// Když je vypnuto
-			if (self.enabled === false) return unprepare();;
+			if (enabled === false) return unprepare();;
 			
 			prepare();
 
@@ -75,21 +77,13 @@
 			pullDown.addClass('turn-on');
 			hidePullDown(pullDown);
 
-			// on scroll do
-			self.container.on(TOUCHMOVE, function (ev) {
-				if (moving === false) return;
-				scrollAction(ev, pullDown);
-			});
-			self.container.on(TOUCHEND, function (ev) {
-				// do scrolled action
-				scrolledAction(pullDown);
-			});
 			pullDown.find('.stop').off('click');
 
 			statusUpdate(pullDown);
 		};
 
 		var stopListen = function (pullDown) {
+			//console.log('stopListen');
 
 			// turn-on css
 			pullDown.removeClass('turn-on');
@@ -113,22 +107,31 @@
 		};
 
 		var movingDuration = function (ev) {
+			ev.preventDefault();
+			//console.log('MOVE');
 			lastMoveEvent = nowMoveEvent;
 			nowMoveEvent = ev;
+			if (moving === false) return;
+			scrollAction(ev, self.pullDown);
 		};
 		var movingStart = function (ev) {
+			//console.log('START');
 			lastMoveEvent = null;
 			moving = true;
+			// bind store moving
+			self.container.off(TOUCHMOVE, movingDuration).on(TOUCHMOVE, movingDuration);
 		};
 		var movingEnd = function (ev) {
+			//console.log('END');
 			lastMoveEvent = null;
 			nowMoveEvent = null;
 			moving = false;
+			self.container.off(TOUCHMOVE);
+			// do scrolled action
+			scrolledAction(self.pullDown);
 		};
 
 		var prepare = function () {
-			// bind store moving
-			self.container.off(TOUCHMOVE, movingDuration).on(TOUCHMOVE, movingDuration);
 			// Mouse fix
 			self.container.off(TOUCHSTART, movingStart).on(TOUCHSTART, movingStart);
 			self.container.off(TOUCHEND, movingEnd).on(TOUCHEND, movingEnd);
@@ -241,6 +244,7 @@
 					touch = ev.originalEvent.targetTouches[0];
 					lastTouch = lastMoveEvent.originalEvent.targetTouches[0];
 				} catch (e) {
+					console.log('Not supported multitouches');
 					return 0;
 				}
 			}
