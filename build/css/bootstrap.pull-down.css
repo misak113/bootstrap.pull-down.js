@@ -8,23 +8,27 @@
   margin: 14px;
 }
 .pull-down .indicator {
-  -moz-animation: noRotate 0.5s ease 0 1 normal;
+  -moz-animation: noRotate 0.5s ease 0s 1 normal;
   -moz-transform: rotate(0deg);
-  -o-animation: noRotate 0.5s ease 0 1 normal;
+  -o-animation: noRotate 0.5s ease 0s 1 normal;
   -o-transform: rotate(0deg);
-  -webkit-animation: noRotate 0.5s ease 0 1 normal;
+  -webkit-animation: noRotate 0.5s ease 0s 1 normal;
   -webkit-transform: rotate(0deg);
+  animation: noRotate 0.5s ease 0s 1 normal;
+  transform: rotate(0deg);
   float: left;
   margin: 14px;
   display: none;
 }
 .pull-down .indicator-working {
-  -moz-animation: rotatingLeft 1s linear 0 infinite normal;
+  -moz-animation: rotatingLeft 1s linear 0s infinite normal;
   -moz-transform: rotate(0deg);
-  -o-animation: rotatingLeft 1s linear 0 infinite normal;
+  -o-animation: rotatingLeft 1s linear 0s infinite normal;
   -o-transform: rotate(0deg);
-  -webkit-animation: rotatingLeft 1s linear 0 infinite normal;
+  -webkit-animation: rotatingLeft 1s linear 0s infinite normal;
   -webkit-transform: rotate(0deg);
+  animation: rotatingLeft 1s linear 0s infinite normal;
+  transform: rotate(0deg);
   float: left;
   margin: 14px;
   display: none;
@@ -81,17 +85,20 @@
   display: none;
 }
 .pull-down.turn-on.pulled .indicator {
-  -moz-animation: halfRotate 0.5s ease 0 1 normal;
+  -moz-animation: halfRotate 0.5s ease 0s 1 normal;
   -moz-transform: rotate(-180deg);
-  -o-animation: halfRotate 0.5s ease 0 1 normal;
+  -o-animation: halfRotate 0.5s ease 0s 1 normal;
   -o-transform: rotate(-180deg);
-  -webkit-animation: halfRotate 0.5s ease 0 1 normal;
+  -webkit-animation: halfRotate 0.5s ease 0s 1 normal;
   -webkit-transform: rotate(-180deg);
+  animation: halfRotate 0.5s ease 0s 1 normal;
+  transform: rotate(-180deg);
 }
 .pull-down.turn-on.down {
   -moz-animation: none;
   -o-animation: none;
   -webkit-animation: none;
+  animation: none;
 }
 .pull-down.working .indicator-working {
   display: block;
@@ -187,5 +194,29 @@
   }
   to {
     -o-transform: rotate(0deg);
+  }
+}
+@keyframes halfRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+@keyframes noRotate {
+  from {
+    transform: rotate(-180deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes rotatingLeft {
+  from {
+    transform: rotate(-360deg);
+  }
+  to {
+    transform: rotate(0deg);
   }
 }

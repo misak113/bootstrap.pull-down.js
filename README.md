@@ -7,7 +7,7 @@ PullDown is most used to refresh page by touch(drag), move down and drop finger 
 
 <img src="preview.jpg" alt="Preview" />
 
-## Version 0.1.1
+## Version 0.1.2
 
 
 insert this lines to your app:
